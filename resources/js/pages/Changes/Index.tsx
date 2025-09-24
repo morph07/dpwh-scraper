@@ -28,6 +28,12 @@ interface Change {
     };
 }
 
+interface PaginationLink {
+    url: string | null;
+    label: string;
+    active: boolean;
+}
+
 interface ChangesIndexProps {
     changes: {
         data: Change[];
@@ -35,7 +41,7 @@ interface ChangesIndexProps {
         last_page: number;
         per_page: number;
         total: number;
-        links: any[];
+        links: PaginationLink[];
     };
     changeTypes: string[];
     filters: {

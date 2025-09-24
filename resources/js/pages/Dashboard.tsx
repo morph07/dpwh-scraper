@@ -10,6 +10,26 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+interface Project {
+    id: number;
+    contract_id: string;
+    project_name: string | null;
+    status: string | null;
+    region?: {
+        name: string;
+    };
+}
+
+interface Change {
+    id: number;
+    contract_id: string;
+    change_type: string;
+    detected_at: string;
+    infrastructure_project?: {
+        project_name: string;
+    };
+}
+
 interface DashboardProps {
     stats: {
         total_projects: number;
@@ -19,8 +39,8 @@ interface DashboardProps {
         total_changes: number;
         recent_changes: number;
     };
-    recentProjects: any[];
-    recentChanges: any[];
+    recentProjects: Project[];
+    recentChanges: Change[];
     regionStats: Array<{
         name: string;
         count: number;

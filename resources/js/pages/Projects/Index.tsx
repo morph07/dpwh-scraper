@@ -24,6 +24,12 @@ interface Project {
     created_at: string;
 }
 
+interface PaginationLink {
+    url: string | null;
+    label: string;
+    active: boolean;
+}
+
 interface ProjectsIndexProps {
     projects: {
         data: Project[];
@@ -31,7 +37,7 @@ interface ProjectsIndexProps {
         last_page: number;
         per_page: number;
         total: number;
-        links: any[];
+        links: PaginationLink[];
     };
     regions: Array<{
         id: number;
@@ -164,7 +170,7 @@ export default function ProjectsIndex({ projects: projectsData, regions, statuse
                                 {projectsData.data.map((project) => (
                                     <tr key={project.id} className="hover:bg-muted/50">
                                         <td className="px-4 py-3">
-                                            <Link 
+                                            <Link
                                                 href={`/projects/${project.id}`}
                                                 className="text-blue-600 hover:text-blue-800 font-medium"
                                             >
@@ -184,8 +190,8 @@ export default function ProjectsIndex({ projects: projectsData, regions, statuse
                                         </td>
                                         <td className="px-4 py-3">
                                             <span className={`inline-block px-2 py-1 text-xs rounded-full ${project.status === 'Completed' ? 'bg-green-100 text-green-800' :
-                                                    project.status === 'On-Going' ? 'bg-blue-100 text-blue-800' :
-                                                        'bg-gray-100 text-gray-800'
+                                                project.status === 'On-Going' ? 'bg-blue-100 text-blue-800' :
+                                                    'bg-gray-100 text-gray-800'
                                                 }`}>
                                                 {project.status || 'Unknown'}
                                             </span>
@@ -219,10 +225,10 @@ export default function ProjectsIndex({ projects: projectsData, regions, statuse
                                             onClick={() => link.url && router.visit(link.url)}
                                             disabled={!link.url}
                                             className={`px-3 py-1 text-sm rounded ${link.active
-                                                    ? 'bg-primary text-primary-foreground'
-                                                    : link.url
-                                                        ? 'border border-input hover:bg-muted'
-                                                        : 'text-muted-foreground cursor-not-allowed'
+                                                ? 'bg-primary text-primary-foreground'
+                                                : link.url
+                                                    ? 'border border-input hover:bg-muted'
+                                                    : 'text-muted-foreground cursor-not-allowed'
                                                 }`}
                                             dangerouslySetInnerHTML={{ __html: link.label }}
                                         />
