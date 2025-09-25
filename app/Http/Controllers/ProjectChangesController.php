@@ -28,10 +28,12 @@ class ProjectChangesController extends Controller
 
         // Transform the data to match component expectations
         $changes->getCollection()->transform(function ($change) {
-            $changedFields = $change->changed_fields ? json_decode($change->changed_fields, true) : [];
+            // Since changed_fields is cast as array in the model, no need to json_decode
+            $changedFields = $change->changed_fields ?: [];
             $change->field_name = is_array($changedFields) ? implode(', ', $changedFields) : ($change->changed_fields ?? 'N/A');
             $change->old_value = $change->old_data ? 'Previous data' : null;
             $change->new_value = $change->new_data ? 'Updated data' : null;
+
             return $change;
         });
 
@@ -51,7 +53,7 @@ class ProjectChangesController extends Controller
         $change->load('infrastructureProject.region');
 
         // Transform data to match component expectations
-        $changedFields = $change->changed_fields ? json_decode($change->changed_fields, true) : [];
+        $changedFields = $change->changed_fields ?: [];
         $change->field_name = is_array($changedFields) ? implode(', ', $changedFields) : ($change->changed_fields ?? 'N/A');
         $change->old_value = $change->old_data ? 'Previous data' : null;
         $change->new_value = $change->new_data ? 'Updated data' : null;
